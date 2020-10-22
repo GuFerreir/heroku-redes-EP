@@ -15,9 +15,11 @@
 
     <body>
         <form id="chat">
-            <input type="text" id="user" name="username" placeholder="Digite seu usuário">
-
             <div id="msgs" class="messages"></div>
+
+            <input type="text" id="idSocket" name="idSocket" disabled>
+
+            <input type="text" id="user" name="username" placeholder="Digite seu usuário">
 
             <input type="text" id="msg" name="message" placeholder="Digite sua mensagem">
 
@@ -29,7 +31,11 @@
             var socket = io("https://redesep6s.herokuapp.com/");
 
             function renderMessage(message) {
-                $('#msgs').append('<div class="message"><strong>'+ message.author +': </strong>'+ message.message +'</div>')
+                $('#msgs').append('<div class="message"><strong>'+ message.author +': </strong>'+ message.message +'</div>');
+            }
+
+            function renderId(id) {
+                $('#idSocket').append(`Id da sua conexão: ${id}`);
             }
 
             socket.on('previousMessages', function(messages){
@@ -38,6 +44,10 @@
 
             socket.on('receivedMessage', function(message){
                 renderMessage(message);
+            })
+
+            socket.on('idSocket', function(id){
+                renderId(id);
             })
 
             $('#chat').submit(function(event){
