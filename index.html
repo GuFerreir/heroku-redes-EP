@@ -28,7 +28,8 @@
 
         <script type="text/javascript">
 
-            var socket = io("https://redesep6s.herokuapp.com/");
+            var id = null;
+            var socket = io(`https://redesep6s.herokuapp.com/${id || ''}`);
 
             function renderMessage(message) {
                 $('#msgs').append('<div class="message"><strong>'+ message.author +': </strong>'+ message.message +'</div>');
@@ -46,9 +47,11 @@
                 renderMessage(message);
             })
 
-            // socket.on('idSocket', function(id){
-            //     renderId(id);
-            // })
+            
+            socket.on('idSocket', function(id){
+                id = id;
+                // renderId(id);
+            })
 
             $('#chat').submit(function(event){
                 event.preventDefault();
