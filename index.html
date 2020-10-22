@@ -44,11 +44,10 @@
             socket.on('receivedMessage', function(message){
                 renderMessage(message);
             })
-
             
             socket.on('idSocket', function(id){
                 console.log(id);
-                const idPag = id;
+                const idPag = id || 0;
                 renderID(idPag);
             })
 
