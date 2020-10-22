@@ -27,16 +27,10 @@
         </form>
 
         <script type="text/javascript">
-
-            var idS = null;
-            var socket = io(`https://redesep6s.herokuapp.com/${idS || ''}`);
+            var socket = io(`https://redesep6s.herokuapp.com/`);
 
             function renderMessage(message) {
                 $('#msgs').append('<div class="message"><strong>'+ message.author +': </strong>'+ message.message +'</div>');
-            }
-
-            function renderId(id) {
-                $('#idSocket').val() = `Id da sua conexão: ${id}`;
             }
 
             socket.on('previousMessages', function(messages){
@@ -49,8 +43,7 @@
 
             
             socket.on('idSocket', function(id){
-                idS = id;
-                renderId(id);
+                console.log(id);
             })
 
             $('#chat').submit(function(event){
