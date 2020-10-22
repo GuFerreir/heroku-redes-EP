@@ -8,8 +8,8 @@ const io = require('socket.io')(server);
 
 var porta = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'public'));
+app.use(express.static(path.join(__dirname)));
+app.set('views', path.join(__dirname));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
