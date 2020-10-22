@@ -29,7 +29,7 @@
         <script type="text/javascript">
 
             var idS = null;
-            var socket = io(`https://redesep6s.herokuapp.com/${id || ''}`);
+            var socket = io(`https://redesep6s.herokuapp.com/${idS || ''}`);
 
             function renderMessage(message) {
                 $('#msgs').append('<div class="message"><strong>'+ message.author +': </strong>'+ message.message +'</div>');
