@@ -34,7 +34,7 @@
             }
 
             function renderID(id){
-                $('#idSocket').val() = id;
+                $('#idSocket').val() = `${id}`;
             }
 
             socket.on('previousMessages', function(messages){
