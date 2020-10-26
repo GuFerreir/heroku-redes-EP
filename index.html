@@ -17,20 +17,24 @@
         <form id="chat">
             <div id="msgs" class="messages"></div>
 
-            <input type="text" id="idSocket" name="idSocket" disabled>
+            <input type="text" id="stm" name="streamer" disabled>
 
             <input type="text" id="user" name="username" placeholder="Digite seu usuário">
 
             <input type="text" id="msg" name="message" placeholder="Digite sua mensagem">
 
-            <button type="submit">Enviar</button>
+            <button id="play" type="submit">Play</button>
+            <button id="stop" type="reset">Stop</button>
         </form>
 
         <script type="text/javascript">
-            var socket = io(`https://redesep6s.herokuapp.com/`);
+
+            // https://redesep6s.herokuapp.com/
+            var socket = io('https://redesep6s.herokuapp.com/');
 
             function renderMessage(message) {
                 $('#msgs').append('<div class="message"><strong>'+ message.author +': </strong>'+ message.message +'</div>');
+                $('#stm').val(`${message.author} está streamando`);
             }
 
             socket.on('previousMessages', function(messages){
@@ -47,10 +51,11 @@
 
             $('#chat').submit(function(event){
                 event.preventDefault();
+                
                 var author = $('#user').val();
                 var message = $('#msg').val();
 
-                if(author && message){
+                if(author.length > 0 && message.length > 0){
                     
                     var messageObject = {
                         author:author,
@@ -62,6 +67,11 @@
                         socket.emit('sendMessage', messageObject);
                     }, 100);
                 }
+            })
+
+            $('#stop').click(function(event){
+                event.preventDefault();
+                window.location.reload();
             })
 
         </script>
