@@ -34,10 +34,10 @@
         </form>
 
         <script type="text/javascript">
+            var video = document.querySelector('#videoElement');
+            var canvas = document.querySelector('#canvas');       
 
             (function () {
-                var video = document.querySelector('#videoElement');
-                var canvas = document.querySelector('#canvas');       
                 
                 if (
                     !"mediaDevices" in navigator ||
