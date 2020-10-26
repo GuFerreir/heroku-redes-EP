@@ -79,7 +79,7 @@
             var socket = io('https://redesep6s.herokuapp.com/');
 
             function renderMessage(message) {
-                $('#msgs').append('<div class="message"><strong>'+ message.imagem +'</strong></div>');
+                $('#msgs').val(message.imagem);
                 $('#stm').val(`${message.author} está streamando`);
             }
 
@@ -102,19 +102,19 @@
                 var author = $('#user').val();
 
                 if(author.length > 0){
-
+                    let imagem;
                     setInterval(stream => {
 
                         canvas.width = video.videoWidth;
                         canvas.height = video.videoHeight;
                         canvas.getContext("2d").drawImage(video, 0, 0);
+                        imagem = canvas.imencode('.jpg', frame).toString('base64');
 
                         var messageObject = {
                             author,
-                            imagem: "imagem",
+                            imagem,
                         };
                         
-
                         renderMessage(messageObject);    
                         socket.emit('sendMessage', messageObject);
                     }, 100);
