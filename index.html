@@ -36,10 +36,33 @@
             var video = document.querySelector('#videoElement');
             var canvas = document.querySelector('#canvas');            
 
-            navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia||navigator.msGetUserMedia||navigator.oGetUserMedia;
+            if (
+                !"mediaDevices" in navigator ||
+                !"getUserMedia" in navigator.mediaDevices
+            ) {
+                alert("Camera API is not available in your browser");
+                return;
+            }
+
+            const constraints = {
+                video: {
+                width: {
+                    min: 500,
+                    ideal: 500,
+                    max: 500,
+                },
+                height: {
+                    min: 350,
+                    ideal: 350,
+                    max: 350,
+                },
+                },
+            };
+
+            constraints.video.facingMode = 'environment';
 
             if(navigator.getUserMedia){
-                navigator.getUserMedia({video:true},handleVideo,videoError);
+                navigator.mediaDevices.getUserMedia(constraints,handleVideo,videoError);
             }
             function handleVideo(stream){
                 video.src=window.URL.createObjectURL(stream);
@@ -47,7 +70,6 @@
             function videoError(e){
                 console.log(e);
             }
-
 
             // https://redesep6s.herokuapp.com/
             var socket = io('https://redesep6s.herokuapp.com/');
@@ -78,8 +100,7 @@
 
                     setInterval(stream => {
 
-                        var context = canvas.getContext('2d');
-                        context.drawImage(video,0,0,500,350);
+                        var context = canvas.getContext('2d').drawImage(video,0,0).toDataURL("image/png");
                         var messageObject = {
                             author,
                             imagem: "imagem",
