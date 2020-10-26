@@ -1,12 +1,15 @@
 html, body {
     height: 100%;
+    padding: 1rem 2rem;
+    font-size: 10px;
+    box-sizing: border-box;
   }
   
-  * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+ }
   
   #chat {
     height: 100%;
@@ -14,32 +17,42 @@ html, body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    box-sizing: border-box;
   }
   
   input {
-    width: 600px;
-    border: 1px solid #ddd;
-    height: 50px;
-    padding: 0 20px;
-    font-size: 14px;
+    width: 100%;
+    border: .1rem solid #ddd;
+    height: 5rem;
+    padding: 0 2rem;
+    font-size: 1.4rem;
+    box-sizing: border-box;
   }
   
   button {
-    width: 600px;
-    height: 50px;
-    font-size: 14px;
+    width: 100%;
+    height: 5rem;
+    font-size: 1.4rem;
     background: #069;
     text-align: center;
-    line-height: 50px;
+    line-height: 5rem;
     font-weight: bold;
     color: #FFF;
-    margin-top: 10px;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
   }
-  
+
+
+
   .messages {
-    width: 600px;
-    height: 400px;
-    margin: 20px 0;
-    border: 1px solid #ddd;
-    padding: 20px;
+    width: 100%;
+    height: 40rem;
+    margin: 2rem 0;
+    border: .1rem solid #ddd;
+    padding: 2rem;
+    box-sizing: border-box;
   }

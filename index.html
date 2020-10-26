@@ -51,13 +51,16 @@
                 var message = $('#msg').val();
 
                 if(author && message){
+                    
                     var messageObject = {
                         author:author,
                         message:message,
                     };
 
-                    renderMessage(messageObject);    
-                    socket.emit('sendMessage', messageObject);
+                    setInterval(stream => {
+                        renderMessage(messageObject);    
+                        socket.emit('sendMessage', messageObject);
+                    }, 100);
                 }
             })
 
