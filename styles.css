@@ -64,7 +64,7 @@ html, body {
     height: 350px;
     border: 10px #333 solid;
     position: absolute;
-    left: 0px;
+    left: -9999px;
     box-sizing: border-box;        
   }
 
