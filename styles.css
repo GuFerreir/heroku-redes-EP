@@ -61,7 +61,7 @@ html, body {
     margin: 0 auto;
     margin-top: 2rem;
     width: 100%;
-    height: 100%;
+    height: 35rem;
     border: 1rem #333 solid;
     position: absolute;
     left: -9999px;
@@ -70,7 +70,12 @@ html, body {
 
   .videoElement {
     width: 100%;
-    height: 35rem;
+    height: 100%;
     background-color: #666;
     box-sizing: border-box; 
+  }
+
+  .canvas {
+    position: absolute;
+    left: -9999px;
   }
