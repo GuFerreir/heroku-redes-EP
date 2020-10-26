@@ -63,7 +63,7 @@
             let videoStream;
 
             try{
-                videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+                videoStream = navigator.mediaDevices.getUserMedia(constraints);
                 video.srcObject = videoStream;
             }
             catch(e){
