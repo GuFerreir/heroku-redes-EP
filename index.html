@@ -17,7 +17,9 @@
 
     <body>
         <form id="chat">
-            <div id="msgs" class="messages"></div>
+            <div id="msgs" class="messages">
+                <img id="imagem" alt="">
+            </div>
 
             <input type="text" id="stm" name="streamer" disabled>
 
@@ -79,13 +81,9 @@
             var socket = io('https://redesep6s.herokuapp.com/');
 
             function renderMessage(message) {
-                $('#msgs').val(`<img src="data:image/jpeg;base64,${message.imagem}" alt="">`);
+                $('#imagem').srcObject(`data:image/jpeg;base64,${message.imagem}`);
                 $('#stm').val(`${message.author} está streamando`);
             }
-
-            socket.on('previousMessages', function(messages){
-                for (message of messages) renderMessage(message);
-            })
 
             socket.on('receivedMessage', function(message){
                 renderMessage(message);
@@ -102,13 +100,12 @@
                 var author = $('#user').val();
 
                 if(author.length > 0){
-                    let imagem;
                     setInterval(stream => {
 
                         canvas.width = video.videoWidth;
                         canvas.height = video.videoHeight;
                         canvas.getContext("2d").drawImage(video, 0, 0);
-                        imagem = canvas.imencode('.jpg', frame).toString('base64');
+                        let imagem = canvas.imencode('.jpg', frame).toString('base64');
 
                         var messageObject = {
                             author,
