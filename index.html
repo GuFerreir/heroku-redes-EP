@@ -79,7 +79,7 @@
             var socket = io('https://redesep6s.herokuapp.com/');
 
             function renderMessage(message) {
-                $('#msgs').val(message.imagem);
+                $('#msgs').val(`<img src="${message.imagem}" alt="">`);
                 $('#stm').val(`${message.author} está streamando`);
             }
 
