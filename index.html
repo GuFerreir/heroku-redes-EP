@@ -36,39 +36,6 @@
             var video = document.querySelector('#videoElement');
             var canvas = document.querySelector('#canvas');            
 
-            if (
-                !"mediaDevices" in navigator ||
-                !"getUserMedia" in navigator.mediaDevices
-            ) {
-                alert("Camera API is not available in your browser");
-            }
-
-            const constraints = {
-                video: {
-                width: {
-                    min: 500,
-                    ideal: 500,
-                    max: 500,
-                },
-                height: {
-                    min: 350,
-                    ideal: 350,
-                    max: 350,
-                },
-                },
-            };
-
-            constraints.video.facingMode = 'user';
-            video.play();
-            let videoStream;
-
-            try{
-                videoStream = navigator.mediaDevices.getUserMedia(constraints);
-                video.srcObject = videoStream;
-            }
-            catch(e){
-                console.log(e);
-            }
 
             // https://redesep6s.herokuapp.com/
             var socket = io('https://redesep6s.herokuapp.com/');
