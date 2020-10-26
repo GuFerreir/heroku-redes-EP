@@ -1,6 +1,6 @@
 html, body {
     height: 100%;
-    padding: 0rem 2rem;
+    padding: 1rem 2rem;
     font-size: 10px;
     box-sizing: border-box;
   }
@@ -54,4 +54,22 @@ html, body {
     box-sizing: border-box;
     overflow:auto;
     margin: 0;
+  }
+
+
+  .meuVideo{
+    margin: 0 auto;
+    margin-top: 2rem;
+    width: 500px;
+    height: 350px;
+    border: 10px #333 solid;
+    position: absolute;
+    left: -9999px;
+    box-sizing: border-box;        
+  }
+
+  .videoElement {
+    width: 500px;
+    height: 350px;
+    background-color: #666;
   }

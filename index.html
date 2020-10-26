@@ -21,19 +21,39 @@
 
             <input type="text" id="user" name="username" placeholder="Digite seu usuário">
 
-            <input type="text" id="msg" name="message" placeholder="Digite sua mensagem">
-
             <button id="play" type="submit">Play</button>
             <button id="stop" type="reset">Stop</button>
+
+            <div id="video" class="meuVideo">
+                <video autoplay="true" id="videoElement"></video>
+            </div>
+
+            <canvas id="canvas" width="500" height="350"></canvas>
         </form>
 
         <script type="text/javascript">
+
+            var video = document.querySelector('#videoElement');
+            var canvas = document.querySelector('#canvas');            
+
+            navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia||navigator.msGetUserMedia||navigator.oGetUserMedia;
+
+            if(navigator.getUserMedia){
+                navigator.getUserMedia({video:true},handleVideo,videoError);
+            }
+            function handleVideo(stream){
+                video.src=window.URL.createObjectURL(stream);
+            }
+            function videoError(e){
+                console.log(e);
+            }
+
 
             // https://redesep6s.herokuapp.com/
             var socket = io('https://redesep6s.herokuapp.com/');
 
             function renderMessage(message) {
-                $('#msgs').append('<div class="message"><strong>'+ message.author +': </strong>'+ message.message +'</div>');
+                $('#msgs').append('<div class="message"><strong>'+ message.imagem +'</strong></div>');
                 $('#stm').val(`${message.author} está streamando`);
             }
 
@@ -46,23 +66,26 @@
             })
             
             socket.on('idSocket', function(id){
-                console.log(id);
+                console.log('ID do socket: ' + id);
             })
 
             $('#chat').submit(function(event){
                 event.preventDefault();
                 
                 var author = $('#user').val();
-                var message = $('#msg').val();
 
-                if(author.length > 0 && message.length > 0){
-                    
-                    var messageObject = {
-                        author:author,
-                        message:message,
-                    };
+                if(author.length > 0){
 
                     setInterval(stream => {
+
+                        var context = canvas.getContext('2d');
+                        context.drawImage(video,0,0,500,350);
+                        var messageObject = {
+                            author,
+                            imagem: "imagem",
+                        };
+                        
+
                         renderMessage(messageObject);    
                         socket.emit('sendMessage', messageObject);
                     }, 100);
