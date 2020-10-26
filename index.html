@@ -64,9 +64,10 @@
                 };
 
                 try{
-                    const videoStream = navigator.mediaDevices.getUserMedia(constraints)
-                    .then(() => console.log("ok"));
-                    
+                    navigator.mediaDevices.getUserMedia(constraints)
+                    .then(stream => {
+                        video.srcObject = stream;
+                    });
                 }catch(e){
                     console.log(e);
                 }            
