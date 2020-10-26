@@ -6,14 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Security Cam - EP Redes</title>
         <link rel="shortcut icon" href="favicon.ico" />
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-
-        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-
         <link rel="stylesheet" href="./styles.css">
+
+        <!-- Biblioteca Jquery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <!-- Biblioteca para conectar o socket com o backend -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     </head>
 
     <body>
@@ -37,11 +35,13 @@
         </form>
 
         <script type="text/javascript">
+            //selecionando o elemento de video na tela
             var video = document.querySelector('#videoElement');
+            //selecionamento o elemento de canvas onde iremos tirar screenshots do video
             var canvas = document.querySelector('#canvas');       
-
+            //executando uma função alto contida para assim que a página carregar solicitar permissão da camera e utilizá-la
             (function () {
-                
+                //checando se o navegador da suporte a API de uso da camera
                 if (
                     !"mediaDevices" in navigator ||
                     !"getUserMedia" in navigator.mediaDevices
@@ -50,6 +50,7 @@
                     return;
                 }
 
+                //setando as propriedades do vídeo da camera
                 const constraints = {
                     video: {
                         width: {
@@ -65,8 +66,10 @@
                         facingMode: "environment"
                     },
                 };
-
+                
+                //como é um I/O precisamos colocar dentro do try/catch
                 try{
+                    //essa promisse pega o que é caitado pela camera no navegador e envia ao elemento video que selecionamos anteriormente
                     navigator.mediaDevices.getUserMedia(constraints)
                     .then(stream => {
                         video.srcObject = stream;
@@ -77,51 +80,59 @@
             })();
             
 
-
+            //Aqui criamos o socket e conectamos ao endereço do backend
             // https://redesep6s.herokuapp.com/
             var socket = io('https://redesep6s.herokuapp.com/');
 
+            // essa função seleciona os elementos na tela usando jquery e renderiza neles o que é recebido como parametro
             function renderMessage(message) {
                 $('#imagem').attr('src', message.imagem);
                 $('#stm').val(`${message.author} está streamando`);
             }
-
+            //nesse evento o socket fica escutando o backend que quando dispara a função receivedMessage esse evento é responsável por tratá-la
+            //o tratamento é feito renderizando na tela o que o backend enviar
             socket.on('receivedMessage', function(message){
                 renderMessage(message);
             })
-            
+            //nesse evento o socket fica escutando outra função que envia o ID da conexão
             socket.on('idSocket', function(id){
                 console.log('ID do socket: ' + id);
             })
-
+            //Aqui selecionamos o botão de Play e adicionamos ao seu evento de submissão de formulário (pois ele faz parte do formulário) o comportamento de dar play no vídeo, salvar os screenshots do video, instanciar um objeto com o autor e a imagem e enviar para o backend distribuir via socket à todos na chamada
             $('#chat').submit(function(event){
+                //tiramos o comportamento padrao do botao
                 event.preventDefault();
-                
+                //iniciamos o video
                 video.play();
+                //selecionamos o campo de usuário e colocamos seu valor na variavel
                 var author = $('#user').val();
-
+                //se o conteudo da variavel for maior que 0 (o usuario digitou algo) continuamos
                 if(author.length > 0){
+                    //a cada 0,1s mandamos uma nova imagem e autor ao backend
                     setInterval(stream => {
-
+                        //preparamos o canvas para receber o screenshot do video
                         canvas.width = video.videoWidth;
                         canvas.height = video.videoHeight;
                         canvas.getContext("2d").drawImage(video, 0, 0);
+                        //transformamos o canvas em algo que possamos passar para o backend e ele interpretará como imagem
                         const dataURI = canvas.toDataURL("image/jpeg");
-                        console.log(dataURI);
-
+                        //instanciamos um objeto para enviar para o backend
                         var messageObject = {
                             author,
                             imagem: dataURI,
                         };
-                        
-                        renderMessage(messageObject);    
+                        //renderizamos na nossa tela
+                        renderMessage(messageObject);
+                        //usamos o socket para enviar o objeto para o backend distribuir para todos conectados    
                         socket.emit('sendMessage', messageObject);
                     }, 100);
                 }
             })
 
+            //selecionamos o botao de stop e adicionamos um tratamento para seu evento de click
             $('#stop').click(function(event){
                 event.preventDefault();
+                //recarregamos a página pois isso interrompe a stream da camera
                 window.location.reload();
             })
 
