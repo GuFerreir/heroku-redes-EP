@@ -105,6 +105,10 @@
 
                     setInterval(stream => {
 
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext("2d").drawImage(video, 0, 0);
+
                         var messageObject = {
                             author,
                             imagem: "imagem",
