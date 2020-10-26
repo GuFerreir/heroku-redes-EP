@@ -58,15 +58,15 @@
                 },
             };
 
-            constraints.video.facingMode = 'environment';
+            constraints.video.facingMode = 'user';
+            video.play();
+            let videoStream;
 
-            if(navigator.getUserMedia){
-                navigator.mediaDevices.getUserMedia(constraints,handleVideo,videoError);
+            try{
+                videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = videoStream;
             }
-            function handleVideo(stream){
-                video.src=window.URL.createObjectURL(stream);
-            }
-            function videoError(e){
+            catch(e){
                 console.log(e);
             }
 
