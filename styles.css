@@ -55,4 +55,5 @@ html, body {
     border: .1rem solid #ddd;
     padding: 2rem;
     box-sizing: border-box;
+    overflow:auto;
   }
