@@ -59,7 +59,7 @@
                     };
 
                     try{
-                        const videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+                        const videoStream = navigator.mediaDevices.getUserMedia(constraints);
                         video.srcObject = videoStream;
                     }catch(e){
                         console.log(e);
